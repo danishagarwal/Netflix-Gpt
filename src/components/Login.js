@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
+import { checkValidData } from "../utils/validate.js";
 
 const Login = () => {
-  //When someone clicks on button "New to Netflix" to change text
+  /* When someone clicks on button "New to Netflix" to change text */
   const [toggle, setToggle] = useState(true);
-
   const toggleSignUp = () => {
     setToggle(!toggle);
+  };
+
+  /* Error Message when form data is incorrect */
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  /* When we click on button -> Validate form */
+  const email = useRef(null); //to pass data to the function
+  const password = useRef(null);
+  const handleSubmitBtn = () => {
+    const message = checkValidData(email.current.value, password.current.value);
+    setErrorMessage(message);
+    console.log(password.current.value);
+    console.log(message);
   };
 
   return (
@@ -19,6 +32,7 @@ const Login = () => {
         />
       </div>
       <form
+        onSubmit={(e) => e.preventDefault()}
         className={`text-white w-3/12 bg-opacity-70 bg-black p-12 absolute my-32 mx-auto right-0 left-0 ${
           toggle ? "h-2/4" : "h-2/2"
         }`}
@@ -36,16 +50,23 @@ const Login = () => {
           />
         )}
         <input
+          ref={email}
           type="text"
           placeholder="Email Address"
           className="text-sm w-full p-4 rounded-lg my-2 bg-gray-500"
         />
         <input
+          ref={password}
           type="password"
           placeholder="Password"
           className="text-sm rounded-lg w-full my-2 p-4 bg-gray-500"
         />
-        <button className="rounded-md text-base p-4 my-8 bg-red-700 w-full ">
+
+        <p className="text-sm font-bold text-red-700">{errorMessage} </p>
+        <button
+          onClick={handleSubmitBtn}
+          className="rounded-md text-base p-4 my-8 bg-red-700 w-full "
+        >
           {toggle ? "Sign In" : "Sign Up"}
         </button>
 

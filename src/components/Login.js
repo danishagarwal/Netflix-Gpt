@@ -4,9 +4,9 @@ import { checkValidData } from "../utils/validate.js";
 
 const Login = () => {
   /* When someone clicks on button "New to Netflix" to change text */
-  const [toggle, setToggle] = useState(true);
+  const [isSignIn, setisSignIn] = useState(true);
   const toggleSignUp = () => {
-    setToggle(!toggle);
+    setisSignIn(!isSignIn);
   };
 
   /* Error Message when form data is incorrect */
@@ -34,15 +34,15 @@ const Login = () => {
       <form
         onSubmit={(e) => e.preventDefault()}
         className={`text-white w-3/12 bg-opacity-70 bg-black p-12 absolute my-32 mx-auto right-0 left-0 ${
-          toggle ? "h-2/4" : "h-2/2"
+          isSignIn ? "h-2/4" : "h-2/2"
         }`}
       >
         <h1 className="font-bold text-3xl py-4">
-          {/* If toggle is true then signIn else SignUp */}
-          {toggle ? "Sign In" : "Sign Up"}
+          {/* If isSignIn is true then signIn else SignUp */}
+          {isSignIn ? "Sign In" : "Sign Up"}
         </h1>
 
-        {!toggle && (
+        {!isSignIn && (
           <input
             type="text"
             placeholder="Name"
@@ -67,11 +67,11 @@ const Login = () => {
           onClick={handleSubmitBtn}
           className="rounded-md text-base p-4 my-8 bg-red-700 w-full "
         >
-          {toggle ? "Sign In" : "Sign Up"}
+          {isSignIn ? "Sign In" : "Sign Up"}
         </button>
 
         <p onClick={toggleSignUp} className="cursor-pointer py-4 text-sm">
-          {toggle
+          {isSignIn
             ? "New to Netflix? SignUp Now"
             : "Already Registered? Login Now"}
         </p>

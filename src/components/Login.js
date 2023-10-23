@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate.js";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
   /* When someone clicks on button "New to Netflix" to change text */
@@ -16,10 +18,31 @@ const Login = () => {
   const email = useRef(null); //to pass data to the function
   const password = useRef(null);
   const handleSubmitBtn = () => {
+    //Check if this is valid
     const message = checkValidData(email.current.value, password.current.value);
     setErrorMessage(message);
-    console.log(password.current.value);
-    console.log(message);
+    if (message) return null;
+
+    //SignUp Logic
+    if (!isSignIn) {
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "- " + errorMessage);
+          // ..
+        });
+    }
   };
 
   return (

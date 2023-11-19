@@ -6,8 +6,11 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   /* When someone clicks on button "New to Netflix" to change text */
   const [isSignIn, setisSignIn] = useState(true);
   const toggleSignUp = () => {
@@ -37,7 +40,7 @@ const Login = () => {
           // Signed up
           const user = userCredential.user;
           console.log(user);
-          // ...
+          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -57,6 +60,7 @@ const Login = () => {
           // Signed in
           const user = userCredential.user;
           console.log("Signed in" + user);
+          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;

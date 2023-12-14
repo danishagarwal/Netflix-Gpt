@@ -4,6 +4,7 @@ import { checkValidData } from "../utils/validate.js";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +22,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   /* When we click on button -> Validate form */
+  const name = useRef(null);
   const email = useRef(null); //to pass data to the function
   const password = useRef(null);
   const handleSubmitBtn = () => {
@@ -39,8 +41,19 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
+          //Used for Display name in Redux
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: "https://example.com/jane-q-user/profile.jpg",
+          })
+            .then(() => {
+              // Profile updated then navigate!
+              navigate("/browse");
+            })
+            .catch((error) => {
+              setErrorMessage(error.message);
+            });
           console.log(user);
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -93,6 +106,7 @@ const Login = () => {
 
         {!isSignIn && (
           <input
+            ref={name}
             type="text"
             placeholder="Name"
             className="text-sm w-full p-4 rounded-lg my-2 bg-gray-500"

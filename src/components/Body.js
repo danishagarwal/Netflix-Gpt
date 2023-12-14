@@ -16,6 +16,7 @@ const Body = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const { email, displayName, uid } = user;
+        console.log(user);
         //User is signed In
         dispatch(addUser({ email: email, displayName: displayName, uid: uid })); //Add everything in store
         // navigate("/browse");

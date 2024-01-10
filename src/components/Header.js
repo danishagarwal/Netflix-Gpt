@@ -4,6 +4,7 @@ import { auth } from "../utils/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
+import { logo, user_icon } from "../utils/constants";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Header = () => {
 
   //Updating user in Store from one place, hence using onAuthStateChange
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const { email, displayName, uid } = user;
         console.log(user);
@@ -34,23 +35,19 @@ const Header = () => {
         navigate("/");
       }
     });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return (
     <div className="flex justify-between w-full px-8 py-2 bg-gradient-to-b from-black absolute z-30">
-      <img
-        className="w-72"
-        src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
-        alt="logo"
-      />
+      <img className="w-72" src={logo} alt="logo" />
 
       {user && (
         <div className="flex p-2">
-          <img
-            alt="usericon"
-            src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
-            className="w-14 h-14 mt-2"
-          />
+          <img alt="usericon" src={user_icon} className="w-14 h-14 mt-2" />
           <button onClick={handleSignOut} className="font-bold text-white">
             SignOut
           </button>

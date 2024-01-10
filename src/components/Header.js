@@ -1,10 +1,12 @@
-import { signOut } from "firebase/auth";
-import React from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import React, { useEffect } from "react";
 import { auth } from "../utils/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, removeUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
   const handleSignOut = () => {
@@ -16,6 +18,23 @@ const Header = () => {
         // An error happened.
       });
   };
+
+  //Updating user in Store from one place, hence using onAuthStateChange
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { email, displayName, uid } = user;
+        console.log(user);
+        //User is signed In
+        dispatch(addUser({ email: email, displayName: displayName, uid: uid })); //Add everything in store
+        navigate("/browse");
+      } else {
+        // User is signed out
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+  }, []);
 
   return (
     <div className="flex justify-between w-full px-8 py-2 bg-gradient-to-b from-black absolute z-30">

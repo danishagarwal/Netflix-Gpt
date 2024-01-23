@@ -3,7 +3,7 @@ import useTrailerVideo from "../hooks/useTrailerVideo";
 
 const Videobackground = ({ movieId }) => {
   //Custom hook for getting the trailer video
-  useTrailerVideo();
+  useTrailerVideo(movieId);
 
   //Getting the key from our store
   const trailerKey = useSelector(

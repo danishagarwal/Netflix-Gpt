@@ -3,7 +3,7 @@ import { API_options } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addtrailerId } from "../utils/moviesSlice";
 
-const useTrailerVideo = () => {
+const useTrailerVideo = ({ movieId }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     getMovieVideo();
@@ -12,7 +12,9 @@ const useTrailerVideo = () => {
   //Getting the small videos from the API
   const getMovieVideo = async () => {
     const data = await fetch(
-      "https://api.themoviedb.org/3/movie/955916/videos?language=en-US';",
+      "https://api.themoviedb.org/3/movie/" +
+        movieId +
+        "/videos?language=en-US';",
       API_options
     );
     const response = await data.json();

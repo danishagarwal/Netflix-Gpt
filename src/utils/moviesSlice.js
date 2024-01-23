@@ -12,3 +12,4 @@ const moviesSlice = createSlice({
 
 export const { addNowPlaying } = moviesSlice.actions;
 export default moviesSlice.reducer;
+

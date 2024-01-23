@@ -18,11 +18,12 @@ const MainContainer = () => {
 
   const original_title = mainMovie.original_title;
   const overview = mainMovie.overview;
+  const movieId = mainMovie.id;
 
   return (
     <div>
       <VideoTitle title={original_title} overview={overview} />
-      <Videobackground />
+      <Videobackground movieId={movieId} />
     </div>
   );
 };

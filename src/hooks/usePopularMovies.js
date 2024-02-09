@@ -17,7 +17,7 @@ const usePopularMovies = () => {
       API_options
     );
     const response = await data.json();
-    console.log(response.results);
+    //console.log(response.results);
     dispatch(addPopular(response.results));
   }
 };

@@ -5,11 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import { logo, user_icon } from "../utils/constants";
+import { toggleGPTButton } from "../utils/gptSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
+  const gptButton = useSelector((store) => store.gpt);
+  //console.log(gptButton.toggleGPT);
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -18,6 +21,10 @@ const Header = () => {
       .catch((error) => {
         // An error happened.
       });
+  };
+
+  const handleGPTClick = () => {
+    dispatch(toggleGPTButton());
   };
 
   //Updating user in Store from one place, hence using onAuthStateChange
@@ -54,10 +61,16 @@ const Header = () => {
         </nav>
       </div>
       {user && (
-        <div className="flex p-2">
+        <div className="flex justify-center items-center">
+          <button
+            onClick={handleGPTClick}
+            className="bg-purple-300 h-10 mr-3 px-2 text-sm rounded-sm"
+          >
+            {gptButton.toggleGPT ? "Home Page" : "GPT-Search"}
+          </button>
           <button
             onClick={handleSignOut}
-            className="font-bold mt-8 pr-2 text-white"
+            className="font-bold mt-2 pr-2 text-white"
           >
             SignOut
           </button>

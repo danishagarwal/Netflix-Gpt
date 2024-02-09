@@ -15,7 +15,7 @@ const MainContainer = () => {
 
   //Extracting The playing movie trailer - 1 movie
   const mainMovie = moviesData[0];
-  console.log(mainMovie);
+  //console.log(mainMovie);
 
   const original_title = mainMovie.original_title;
   const overview = mainMovie.overview;

@@ -43,14 +43,25 @@ const Header = () => {
 
   return (
     <div className="flex justify-between w-full px-8 py-2 bg-gradient-to-b from-black absolute z-30">
-      <img className="w-72" src={logo} alt="logo" />
-
+      <div className="flex justify-center items-center">
+        <img className="w-40 h-16" src={logo} alt="logo" />
+        <nav className="text-sm text-white flex ">
+          <ul className="p-2 ">Home</ul>
+          <ul className="p-2 ">TV Shows</ul>
+          <ul className="p-2 ">Movies</ul>
+          <ul className="p-2 ">News & Popular</ul>
+          <ul className="p-2 ">My List</ul>
+        </nav>
+      </div>
       {user && (
         <div className="flex p-2">
-          <img alt="usericon" src={user_icon} className="w-14 h-14 mt-2" />
-          <button onClick={handleSignOut} className="font-bold text-white">
+          <button
+            onClick={handleSignOut}
+            className="font-bold mt-8 pr-2 text-white"
+          >
             SignOut
           </button>
+          <img alt="usericon" src={user_icon} className="w-14 h-14" />
         </div>
       )}
     </div>
@@ -58,4 +69,3 @@ const Header = () => {
 };
 
 export default Header;
-

@@ -1,6 +1,10 @@
 import React from "react";
 import { background_img } from "../utils/constants";
+import lang from "../utils/language";
+import { useSelector } from "react-redux";
 const GPTSearchBar = () => {
+  const langKey = useSelector((store) => store.config.lang);
+
   const handleClick = (e) => {
     e.preventDefault();
     console.log("Hello");
@@ -12,13 +16,13 @@ const GPTSearchBar = () => {
         <input
           type="text"
           className="text-sm p-4 m-4 col-span-9 opacity-80"
-          placeholder="What do you want to watch?"
+          placeholder={lang[langKey].gptSearchPlaceholder}
         />
         <button
           onClick={handleClick}
-          className="py-2 px-4 m-4 col-span-3 bg-red-600 rounded-lg"
+          className="py-2 px-4 m-4 col-span-3 text-sm bg-red-600 rounded-lg"
         >
-          Search
+          {lang[langKey].search}
         </button>
       </form>
     </div>

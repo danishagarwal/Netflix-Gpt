@@ -4,8 +4,9 @@ import { auth } from "../utils/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
-import { logo, user_icon } from "../utils/constants";
+import { language_consts, logo, user_icon } from "../utils/constants";
 import { toggleGPTButton } from "../utils/gptSlice";
+import { changeLanguage } from "../utils/configSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -48,20 +49,46 @@ const Header = () => {
     };
   }, []);
 
+  const handleHomeClick = () => {
+    navigate("/browse");
+  };
+
+  const handleLanguageChange = (e) => {
+    dispatch(changeLanguage(e.target.value));
+  };
+
   return (
     <div className="flex justify-between w-full px-8 py-2 bg-gradient-to-b from-black absolute z-30">
       <div className="flex justify-center items-center">
         <img className="w-40 h-16" src={logo} alt="logo" />
-        <nav className="text-sm text-white flex ">
-          <ul className="p-2 ">Home</ul>
-          <ul className="p-2 ">TV Shows</ul>
-          <ul className="p-2 ">Movies</ul>
-          <ul className="p-2 ">News & Popular</ul>
-          <ul className="p-2 ">My List</ul>
-        </nav>
+        {user && (
+          <nav className="text-sm text-white flex ">
+            <ul onClick={handleHomeClick} className="p-2 ">
+              Home
+            </ul>
+            <ul className="p-2 ">TV Shows</ul>
+            <ul className="p-2 ">Movies</ul>
+            <ul className="p-2 ">News & Popular</ul>
+            <ul className="p-2 ">My List</ul>
+          </nav>
+        )}
       </div>
       {user && (
         <div className="flex justify-center items-center">
+          {gptButton.toggleGPT ? (
+            <select
+              className="bg-black text-white h-10 mr-3 px-2 text-sm"
+              onChange={handleLanguageChange}
+            >
+              {language_consts.map((lang) => (
+                <option key={lang.identifier} value={lang.identifier}>
+                  {lang.name}
+                </option>
+              ))}
+            </select>
+          ) : (
+            ""
+          )}
           <button
             onClick={handleGPTClick}
             className="bg-purple-300 h-10 mr-3 px-2 text-sm rounded-sm"
@@ -70,7 +97,7 @@ const Header = () => {
           </button>
           <button
             onClick={handleSignOut}
-            className="font-bold mt-2 pr-2 text-white"
+            className="font-bold mt-2 pr-2 text-white text-sm"
           >
             SignOut
           </button>

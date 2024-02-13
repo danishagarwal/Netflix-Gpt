@@ -17,3 +17,9 @@ export const API_options = {
 };
 
 export const IMG_URL = "https://image.tmdb.org/t/p/w500/";
+
+export const language_consts = [
+  { identifier: "en", name: "English" },
+  { identifier: "hindi", name: "Hindi" },
+  { identifier: "spanish", name: "Spanish" },
+];

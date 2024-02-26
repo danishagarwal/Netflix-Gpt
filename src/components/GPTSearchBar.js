@@ -1,9 +1,11 @@
 import React, { useRef } from "react";
-import { API_options, background_img } from "../utils/constants";
+import { API_options } from "../utils/constants";
 import lang from "../utils/language";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { gptApiKey } from "../utils/apiKey";
+import { gptData } from "../utils/gptSlice";
 const GPTSearchBar = () => {
+  const dispatch = useDispatch();
   const langKey = useSelector((store) => store.config.lang);
 
   const searchText = useRef(null);
@@ -25,25 +27,32 @@ const GPTSearchBar = () => {
   //Getting AI generated results
   const handleClick = async (e) => {
     e.preventDefault();
-    const { GoogleGenerativeAI } = require("@google/generative-ai");
-    const genAI = new GoogleGenerativeAI(gptApiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    const prompt =
-      "Act as a Movie recommendation system and suggest " +
-      searchText.current.value +
-      ". Give only 10 of them and give only the title with comma separation. For Example - Sholay, Batman, Dark, Dune, Hero. Dont give numbering, just mention them with comma separation";
+    try {
+      const { GoogleGenerativeAI } = require("@google/generative-ai");
+      const genAI = new GoogleGenerativeAI(gptApiKey);
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const prompt =
+        "Act as a Movie recommendation system and suggest " +
+        searchText.current.value +
+        "give only the title with comma separation. For Example - Sholay, Batman, Dark, Dune, Hero. Dont give numbering, just mention them with comma separation";
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    console.log(text);
-    const moviesArray = text.split(",");
+      const result = await model.generateContent(prompt);
+      const response = result.response;
+      const text = response.text();
+      console.log(text);
 
-    const promiseMap = moviesArray.map((movie) => searchMovie(movie));
-    console.log(promiseMap);
+      const moviesArray = text.split(",");
 
-    const movieData = await Promise.all(promiseMap);
-    console.log(movieData);
+      //we get a promise array since too many calls to async
+      const promiseMap = moviesArray.map((movie) => searchMovie(movie));
+      console.log(promiseMap);
+
+      const movieData = await Promise.all(promiseMap);
+      console.log(movieData);
+
+      //Adding movies data to store
+      dispatch(gptData(movieData));
+    } catch {}
   };
 
   return (

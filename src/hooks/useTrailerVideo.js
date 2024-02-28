@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { API_options } from "../utils/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addtrailerId } from "../utils/moviesSlice";
 
 const useTrailerVideo = (movieId) => {
   const dispatch = useDispatch();
+  const trailer = useSelector((store) => store.trailerId);
   useEffect(() => {
-    getMovieVideo();
+    !trailer && getMovieVideo();
   }, []);
 
   //Getting the small videos from the API

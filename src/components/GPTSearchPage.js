@@ -6,13 +6,19 @@ import GPTMoviesList from "./GPTMoviesList";
 
 const GPTSearchPage = () => {
   return (
-    <div>
-      <div className="absolute -z-10">
-        <img src={background_img} alt="background_img" />
+    <>
+      <div className="fixed -z-10">
+        <img
+          className="h-screen object-cover md:w-screen md:h-screen sm:h-screen sm:w-screen sm:object-cover"
+          src={background_img}
+          alt="background_img"
+        />
       </div>
-      <GPTSearchBar />
-      <GPTMoviesList />
-    </div>
+      <div className="">
+        <GPTSearchBar />
+        <GPTMoviesList />
+      </div>
+    </>
   );
 };
 

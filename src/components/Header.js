@@ -58,11 +58,11 @@ const Header = () => {
   };
 
   return (
-    <div className="flex justify-between w-full px-8 py-2 bg-gradient-to-b from-black absolute z-30">
+    <div className="flex md:justify-between w-full px-8 py-2 bg-gradient-to-b from-black absolute z-30 flex-col md:flex-row">
       <div className="flex justify-center items-center">
-        <img className="w-40 h-16" src={logo} alt="logo" />
+        <img className="w-40 h-16 mx-auto" src={logo} alt="logo" />
         {user && (
-          <nav className="text-sm text-white flex ">
+          <nav className="hidden md:block md:text-sm md:text-white md:flex">
             <ul onClick={handleHomeClick} className="p-2 ">
               Home
             </ul>
